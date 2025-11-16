@@ -54,11 +54,6 @@
             </td>
         </tr>
 }
-public async Task OnGetAsync()
- {
- Book = await _context.Book
-    .Include(b=>b.Publisher)
-    .ToListAsync();
- }
+
     </tbody>
 </table>

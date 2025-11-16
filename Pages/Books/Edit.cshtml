@@ -5,22 +5,6 @@
     ViewData["Title"] = "Edit";
 }
 
-public async Task<IActionResult> OnGetAsync(int? id)
- {
-    if (id == null)
-    {
-        return NotFound();
-    }
-    Book = await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
-    if (Book == null)
-    {
-        return NotFound();
-    }
-    Book=book;
-    ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID",
-    "PublisherName");
-    return Page();
- }
 
 <h1>Edit</h1>
 
