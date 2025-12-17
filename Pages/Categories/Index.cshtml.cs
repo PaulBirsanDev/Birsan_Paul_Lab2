@@ -24,6 +24,23 @@ namespace Birsan_Paul_Lab2.Pages.Categories
         public async Task OnGetAsync()
         {
             Category = await _context.Category.ToListAsync();
+
+            CategoryData.Categories = await _context.Category
+              .Include(i => i.BookCategories)
+                  .ThenInclude(i => i.Book)
+                      .ThenInclude(i => i.Author)
+              .OrderBy(i => i.CategoryName)
+              .ToListAsync();
+
+            if (id != null)
+            {
+                CategoryID = id.Value;
+                Category category = CategoryData.Categories
+                    .Where(i => i.ID == id.Value).Single();
+
+                // Extragem lista de obiecte Book din relația many-to-many
+                CategoryData.Books = category.BookCategories.Select(s => s.Book);
+            }
         }
     }
 }
