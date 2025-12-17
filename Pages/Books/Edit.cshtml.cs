@@ -13,40 +13,47 @@ namespace Birsan_Paul_Lab2.Pages.Books
 {
     public class EditModel : BookCategoriesPageModel
     {
-        public class EditModel : BookCategoriesPageModel
-        {
             private readonly Birsan_Paul_Lab2.Data.Birsan_Paul_Lab2Context _context;
             public EditModel(Birsan_Paul_Lab2.Data.Birsan_Paul_Lab2Context context)
             {
                 _context = context;
             }
+
             [BindProperty]
             public Book Book { get; set; }
+
             public async Task<IActionResult> OnGetAsync(int? id)
             {
                 if (id == null)
                 {
                     return NotFound();
                 }
-                //se va include Author conform cu sarcina de la lab 2
+//se va include Author conform cu sarcina de la lab 2
+
                 Book = await _context.Book
-                .Include(b => b.Publisher)
-                .Include(b => b.BookCategories).ThenInclude(b => b.Category)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ID == id);
+                    .Include(b => b.Publisher)
+                    .Include(b => b.BookCategories).ThenInclude(b => b.Category)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(m => m.ID == id);
+
+
                 if (Book == null)
                 {
                     return NotFound();
                 }
-                //apelam PopulateAssignedCategoryData pentru o obtine informatiile necesare checkbox-
-                //urilor folosind clasa AssignedCategoryData
-                PopulateAssignedCategoryData(_context, Book);
-                var authorList = _context.Author.Select(x => new
-                {
-                    x.ID,
-                    FullName = x.LastName + " " + x.FirstName
-                });
-                ViewData["AuthorID"] = new SelectList(authorList, "ID", "FullName");
+
+             
+                
+//apelam PopulateAssignedCategoryData pentru o obtine informatiile necesare checkbox-
+//urilor folosind clasa AssignedCategoryData
+
+PopulateAssignedCategoryData(_context, Book);
+                //var authorList = _context.Author.Select(x => new
+                //{
+                //    x.ID,
+                //    FullName = x.LastName + " " + x.FirstName
+                //});
+                //ViewData["AuthorID"] = new SelectList(authorList, "ID", "FullName");
                 ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID",
                "PublisherName");
                 return Page();
@@ -59,7 +66,11 @@ namespace Birsan_Paul_Lab2.Pages.Books
                 {
                     return NotFound();
                 }
+
+
                 //se va include Author conform cu sarcina de la lab 2
+
+
                 var bookToUpdate = await _context.Book
                 .Include(i => i.Publisher)
                 .Include(i => i.BookCategories)
@@ -69,7 +80,11 @@ namespace Birsan_Paul_Lab2.Pages.Books
                 {
                     return NotFound();
                 }
+
+
                 //se va modifica AuthorID conform cu sarcina de la lab 2
+
+
                 if (await TryUpdateModelAsync<Book>(
                 bookToUpdate,
                 "Book",
@@ -80,11 +95,21 @@ namespace Birsan_Paul_Lab2.Pages.Books
                     await _context.SaveChangesAsync();
                     return RedirectToPage("./Index");
                 }
+
+
+
                 //Apelam UpdateBookCategories pentru a aplica informatiile din checkboxuri la entitatea Books care
                 //este editata
+
+
+
                 UpdateBookCategories(_context, selectedCategories, bookToUpdate);
                 PopulateAssignedCategoryData(_context, bookToUpdate);
                 return Page();
             }
-        }
+        
     }
+    
+}
+
+

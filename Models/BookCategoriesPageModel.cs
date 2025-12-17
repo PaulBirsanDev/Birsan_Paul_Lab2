@@ -3,7 +3,7 @@ using Birsan_Paul_Lab2.Data;
 
 namespace Birsan_Paul_Lab2.Models
 {
-    public class BookCategoriesPageModel
+    public class BookCategoriesPageModel : PageModel
     {
         public List<AssignedCategoryData> AssignedCategoryDataList;
         public void PopulateAssignedCategoryData(Birsan_Paul_Lab2Context context,
@@ -17,9 +17,9 @@ namespace Birsan_Paul_Lab2.Models
             {
                 AssignedCategoryDataList.Add(new AssignedCategoryData
                 {
-                    CategoryID = cat.CategoryID,
+                    CategoryID = cat.ID,
                     Name = cat.CategoryName,
-                    Assigned = bookCategories.Contains(cat.CategoryID)
+                    Assigned = bookCategories.Contains(cat.ID)
                 });
             }
         }
@@ -33,34 +33,34 @@ namespace Birsan_Paul_Lab2.Models
             }
             var selectedCategoriesHS = new HashSet<string>(selectedCategories);
             var bookCategories = new HashSet<int>
-            (bookToUpdate.BookCategories.Select(c => c.Category.CategoryID));
+            (bookToUpdate.BookCategories.Select(c => c.Category.ID));
             foreach (var cat in context.Category)
             {
-                if (selectedCategoriesHS.Contains(cat.CategoryID.ToString()))
+                if (selectedCategoriesHS.Contains(cat.ID.ToString()))
                 {
-                    if (!bookCategories.Contains(cat.CategoryID))
+                    if (!bookCategories.Contains(cat.ID))
                     {
                         bookToUpdate.BookCategories.Add(
                         new BookCategory
                         {
                             BookID = bookToUpdate.ID,
-                            CategoryID = cat.CategoryID
+                            CategoryID = cat.ID
                         });
                     }
                 }
                 else
                 {
-                    if (bookCategories.Contains(cat.CategoryID))
+                    if (bookCategories.Contains(cat.ID))
                     {
                         BookCategory courseToRemove
                         = bookToUpdate
                         .BookCategories
-                        .SingleOrDefault(i => i.CategoryID == cat.CategoryID);
+                        .SingleOrDefault(i => i.CategoryID == cat.ID);
                         context.Remove(courseToRemove);
                     }
                 }
             }
         }
-    }
 
+    }
 }
