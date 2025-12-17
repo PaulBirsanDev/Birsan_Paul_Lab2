@@ -48,13 +48,13 @@ namespace Birsan_Paul_Lab2.Pages.Books
 //urilor folosind clasa AssignedCategoryData
 
 PopulateAssignedCategoryData(_context, Book);
-                //var authorList = _context.Author.Select(x => new
-                //{
-                //    x.ID,
-                //    FullName = x.LastName + " " + x.FirstName
-                //});
-                //ViewData["AuthorID"] = new SelectList(authorList, "ID", "FullName");
-                ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID",
+            var authorList = _context.Author.Select(x => new
+            {
+                x.ID,
+                FullName = x.LastName + " " + x.FirstName
+            });
+            ViewData["AuthorID"] = new SelectList(authorList, "ID", "FullName");
+            ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID",
                "PublisherName");
                 return Page();
             }

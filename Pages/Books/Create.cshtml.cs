@@ -57,6 +57,7 @@ namespace Birsan_Paul_Lab2.Pages.Books
             Book.BookCategories = newBook.BookCategories;
             _context.Book.Add(Book);
             await _context.SaveChangesAsync();
+
             return RedirectToPage("./Index");
         }
 
